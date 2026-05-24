@@ -44,9 +44,9 @@ export default async function HomePage() {
         {/* Gallery */}
         <section id="gallery" className="container">
           {/* Featured row: large hero + two stacked */}
-          <div className="grid gap-3 md:grid-cols-4 md:grid-rows-2">
+          <div className="grid grid-cols-2 gap-2 sm:gap-3 md:grid-cols-4 md:grid-rows-2">
             <div
-              className="group aspect-[4/3] overflow-hidden rounded-2xl bg-cover bg-center ring-1 ring-black/5 transition-transform duration-500 hover:scale-[1.01] md:col-span-2 md:row-span-2 md:aspect-auto"
+              className="group col-span-2 aspect-[16/10] overflow-hidden rounded-2xl bg-cover bg-center ring-1 ring-black/5 transition-transform duration-500 hover:scale-[1.01] md:row-span-2 md:aspect-auto"
               style={{ backgroundImage: `url(${photos[0]})` }}
             />
             {photos.slice(1, 5).map((src) => (

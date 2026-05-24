@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { DayPicker, type DateRange } from "react-day-picker";
 import "react-day-picker/style.css";
 import { Lock, BookmarkCheck, CalendarCheck, User } from "lucide-react";
@@ -33,6 +33,16 @@ export function AdminCalendar({
   dateBlocks: Block[];
 }) {
   const [range, setRange] = useState<DateRange | undefined>();
+
+  // One month on phones, two on wider screens.
+  const [months, setMonths] = useState(1);
+  useEffect(() => {
+    const mq = window.matchMedia("(min-width: 768px)");
+    const update = () => setMonths(mq.matches ? 2 : 1);
+    update();
+    mq.addEventListener("change", update);
+    return () => mq.removeEventListener("change", update);
+  }, []);
 
   const active = useMemo(() => bookings.filter((b) => b.status !== "cancelled"), [bookings]);
 
@@ -74,7 +84,7 @@ export function AdminCalendar({
         mode="range"
         selected={range}
         onSelect={setRange}
-        numberOfMonths={2}
+        numberOfMonths={months}
         weekStartsOn={1}
         modifiers={{ booked, closed: [...closed, (d: Date) => isClosedDay(d)], reserved }}
         modifiersClassNames={{ booked: "rdp-booked", closed: "rdp-closed", reserved: "rdp-reserved" }}
